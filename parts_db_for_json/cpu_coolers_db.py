@@ -1,0 +1,44 @@
+import json
+
+cpu_coolers = [
+    {
+        "brand": "Cooler Master",
+        "name": "Hyper 212 Black Edition",
+        "price": 24.99,
+        "fan_rpm": "800-2000 RPM",
+        "noise_level": "6.5-26 dB",
+    },
+    {
+        "brand": "Cooler Master",
+        "name": "MASTERLIQUID ML240L RGB V2",
+        "price": 96.99,
+        "fan_rpm": "650-1800 RPM",
+        "noise_level": "6-27 dB",
+    },
+    {
+        "brand": "be quiet!",
+        "name": "Dark Rock Pro 4",
+        "price": 89.90,
+        "fan_rpm": "1500 RPM",
+        "noise_level": "12.8-24.3 dB",
+    },
+    {
+        "brand": "Noctua",
+        "name": "NH-D15 chromax.black",
+        "price": 89.99,
+        "fan_rpm": "300-1500 RPM",
+        "noise_level": "19.2-24.6 dB",
+    },
+    {
+        "brand": "Thermalright",
+        "name": "Peerless Assassin 120 SE",
+        "price": 36.90,
+        "fan_rpm": "1550 RPM",
+        "noise_level": "25.6 dB",
+    },
+]
+
+file_path = "cpu_coolers.json"
+
+with open(file_path, "w") as file:
+    json.dump(cpu_coolers, file, indent=2)

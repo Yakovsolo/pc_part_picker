@@ -1,0 +1,55 @@
+import json
+
+motherboards = [
+    {
+        "brand": "MSI",
+        "name": "MAG B550 TOMAHAWK",
+        "price": 169.99,
+        "socket": "AM4",
+        "form_factor": "ATX",
+        "ram_slots": 4,
+        "max_ram": 128,
+    },
+    {
+        "brand": "MSI",
+        "name": "B550-A PRO",
+        "price": 139.99,
+        "socket": "AM4",
+        "form_factor": "ATX",
+        "ram_slots": 4,
+        "max_ram": 128,
+    },
+    {
+        "brand": "MSI",
+        "name": "B550M PRO-VDH WIFI",
+        "price": 119.99,
+        "socket": "AM4",
+        "form_factor": "Micro ATX",
+        "ram_slots": 4,
+        "max_ram": 128,
+    },
+    {
+        "brand": "Gigabyte",
+        "name": "Z790 AORUS ELITE AX",
+        "price": 249.99,
+        "socket": "LGA1700",
+        "form_factor": "ATX",
+        "ram_slots": 4,
+        "max_ram": 128,
+    },
+    {
+        "brand": "Asus",
+        "name": "Prime B450M-A II",
+        "price": 79.98,
+        "socket": "AM4",
+        "form_factor": "Micro ATX",
+        "ram_slots": 4,
+        "max_ram": 128,
+    },
+]
+
+file_path = "motherboards.json"
+
+
+with open(file_path, "w") as file:
+    json.dump(motherboards, file, indent=2)

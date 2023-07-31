@@ -1,5 +1,5 @@
 import unittest
-from parts_modules import Motherboard
+from parts_modules import Motherboards
 from computer_parts_db import MOTHERBOARDS
 
 

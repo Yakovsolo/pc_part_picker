@@ -1,5 +1,5 @@
 import unittest
-from parts_modules import Cpu
+from parts_modules import Cpus
 from computer_parts_db import CPUS
 
 

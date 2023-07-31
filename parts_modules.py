@@ -1,249 +1,539 @@
 from abc import ABC, abstractmethod
-from typing import Optional
+import json
+from typing import List, Dict, Any, Optional
+from logger import console_logger, file_logger
 
-from computer_parts_db import CPUS
 
-
-class ComputerPartBlueprint(ABC):
+class PCPartsBaseBlueprint(ABC):
     @abstractmethod
-    def get_name(self) -> str:
+    def get_all_parts(self) -> List[Dict[str, Any]]:
         pass
 
     @abstractmethod
-    def get_brand(self) -> str:
+    def get_parts_by_brand(self) -> Optional[List[Dict[str, Any]]]:
         pass
 
     @abstractmethod
-    def get_price(self) -> float:
+    def get_part_by_name(self) -> Optional[Dict[str, Any]]:
         pass
 
     @abstractmethod
-    def get_part_details(self) -> None:
+    def get_part_price(self) -> Optional[float]:
         pass
 
 
-class ComputerPart(ComputerPartBlueprint):
-    def __init__(self, part_type: str, part_data: dict) -> None:
-        self.part_type = part_type
-        self.part_data = part_data
-        self.brand = part_data["brand"]
-        self.name = part_data["name"]
-        self.price = part_data["price"]
-
-    def get_brand(self) -> str:
-        return self.brand
-
-    def get_name(self) -> str:
-        return self.name
-
-    def get_price(self) -> float:
-        return self.price
-
-    def get_part_details(self) -> None:
-        print(f"{self.part_type}:")
-        print(self.part_data)
-        for key, value in self.part_data.items():
-            print(f"{key}: {value};")
-
-
-class Cpu(ComputerPart):
-    def __init__(self, part_type: str, part_data: dict) -> None:
-        super().__init__(part_type=part_type, part_data=part_data)
-        self.core_count = part_data["core_count"]
-        self.performance_core_clock = part_data["performance_core_clock"]
-        self.performance_boost_clock = part_data["performance_boost_clock"]
-        self.integrated_graphics = part_data["integrated_graphics"]
-
-    def get_core_count(self) -> int:
-        return self.core_count
-
-    def get_performance_core_clock(self) -> float:
-        return self.performance_core_clock
-
-    def get_performance_boost_clock(self) -> float:
-        return self.performance_boost_clock
-
-    def get_integrated_graphics(self) -> Optional[str]:
-        return self.integrated_graphics
-
-
-class CpuCooler(ComputerPart):
-    def __init__(self, part_type: str, part_data: dict) -> None:
-        super().__init__(part_type=part_type, part_data=part_data)
-        self.fan_rpm = part_data["fan_rpm"]
-        self.noise_level = part_data["noise_level"]
-
-    def get_fan_rpm(self) -> str:
-        return self.fan_rpm
-
-    def get_noise_level(self) -> str:
-        return self.noise_level
-
-
-class Motherboard(ComputerPart):
-    def __init__(self, part_type: str, part_data: dict) -> None:
-        super().__init__(part_type=part_type, part_data=part_data)
-        self.socket = part_data["socket"]
-        self.form_factor = part_data["form_factor"]
-        self.ram_slots = part_data["ram_slots"]
-        self.max_ram = part_data["max_ram"]
-
-    def get_socket(self) -> str:
-        return self.socket
-
-    def get_form_factor(self) -> str:
-        return self.form_factor
-
-    def get_ram_slots(self) -> int:
-        return self.ram_slots
-
-    def get_max_ram(self) -> int:
-        return self.max_ram
-
-
-class MemoryRAM(ComputerPart):
-    def __init__(self, part_type: str, part_data: dict) -> None:
-        super().__init__(part_type=part_type, part_data=part_data)
-        self.ram_type = part_data["ram_type"]
-        self.ram_speed = part_data["ram_speed"]
-        self.ram_modules = part_data["ram_modules"]
-
-    def get_ram_type(self) -> str:
-        return self.ram_type
-
-    def get_ram_speed(self) -> int:
-        return self.ram_speed
-
-    def get_ram_modules(self) -> str:
-        return self.ram_modules
-
-
-class Storage(ComputerPart):
-    def __init__(self, part_type: str, part_data: dict) -> None:
-        super().__init__(part_type=part_type, part_data=part_data)
-        self.storage_type = part_data["storage_type"]
-        self.storage_capacity = part_data["storage_capacity"]
-        self.storage_cache = part_data["storage_cache"]
-        self.storage_form_factor = part_data["storage_form_factor"]
-        self.storage_interface = part_data["storage_interface"]
-
-    def get_storage_type(self) -> str:
-        return self.storage_type
-
-    def get_storage_capacity(self) -> int:
-        return self.storage_capacity
-
-    def get_storage_cache(self) -> int:
-        return self.storage_cache
-
-    def get_storage_form_factor(self) -> str:
-        return self.storage_form_factor
-
-    def get_storage_interface(self) -> str:
-        return self.storage_interface
-
-
-class VideoCard(ComputerPart):
-    def __init__(self, part_type: str, part_data: dict) -> None:
-        super().__init__(part_type=part_type, part_data=part_data)
-        self.video_chipset = part_data["video_chipset"]
-        self.video_memory = part_data["video_memory"]
-        self.video_core_clock = part_data["video_core_clock"]
-        self.video_boost_clock = part_data["video_boost_clock"]
-
-    def get_video_chipset(self) -> str:
-        return self.video_chipset
-
-    def get_video_memory(self) -> int:
-        return self.video_memory
-
-    def get_video_core_clock(self) -> int:
-        return self.video_core_clock
-
-    def get_video_boost_clock(self) -> int:
-        return self.video_boost_clock
-
-
-class Case(ComputerPart):
-    def __init__(self, part_type: str, part_data: dict) -> None:
-        super().__init__(part_type=part_type, part_data=part_data)
-        self.case_type = part_data["case_type"]
-        self.case_color = part_data["case_color"]
-
-    def get_case_type(self) -> str:
-        return self.case_type
-
-    def get_case_color(self) -> str:
-        return self.case_color
-
-
-class PowerSuply(ComputerPart):
-    def __init__(self, part_type: str, part_data: dict) -> None:
-        super().__init__(part_type=part_type, part_data=part_data)
-        self.power_suply_type = part_data["power_suply_type"]
-        self.wattage = part_data["wattage"]
-        self.modular = part_data["modular"]
-
-    def get_power_suply_type(self) -> str:
-        return self.power_suply_type
-
-    def get_wattage(self) -> int:
-        return self.wattage
-
-    def get_modular(self) -> str:
-        return self.modular
-
-
-class OperatingSystem(ComputerPart):
-    def __init__(self, part_type: str, part_data: dict) -> None:
-        super().__init__(part_type=part_type, part_data=part_data)
-        self.mode = part_data["mode"]
-        self.max_supported_memory = part_data["max_supported_memory"]
-
-    def get_mode(self) -> str:
-        return self.mode
-
-    def get_max_supported_memory(self) -> int:
-        return self.max_supported_memory
-
-
-class Monitor(ComputerPart):
-    def __init__(self, part_type: str, part_data: dict) -> None:
-        super().__init__(part_type=part_type, part_data=part_data)
-        self.screen_size = part_data["screen_size"]
-        self.resolution = part_data["resolution"]
-        self.refresh_rate = part_data["refresh_rate"]
-        self.response_time = part_data["response_time"]
-        self.panel_type = part_data["panel_type"]
-        self.aspect_ratio = part_data["aspect_ratio"]
-
-    def get_screen_size(self) -> float:
-        return self.screen_size
-
-    def get_resolution(self) -> str:
-        return self.resolution
-
-    def get_refresh_rate(self) -> int:
-        return self.refresh_rate
-
-    def get_response_time(self) -> float:
-        return self.response_time
-
-    def get_panel_type(self) -> str:
-        return self.panel_type
-
-    def get_aspect_ratio(self) -> str:
-        return self.aspect_ratio
-
-
-if __name__ == "__main__":
-    cpu = CPUS[1]
-
-    new_cpu = Cpu("CPU", cpu)
-
-    # print(repr(new_cpu))
-
-    print(new_cpu.get_brand())
-    print(new_cpu.get_name())
-    print(new_cpu.get_price())
-    new_cpu.get_part_details()
+class PCPartsBase(PCPartsBaseBlueprint):
+    def __init__(self, file_path: str) -> None:
+        self.file_path = file_path
+        self.parts_base = self.__load_parts()
+
+    def __load_parts(self) -> Dict[str, Any]:
+        try:
+            with open(self.file_path, "r") as file:
+                return json.load(file)
+        except FileNotFoundError:
+            console_logger.warning(
+                f"PC parts database file '{self.file_path}' not found. Creating an empty parts base."
+            )
+            file_logger.warning(
+                f"PC parts database file '{self.file_path}' not found. Creating an empty parts base."
+            )
+            return {}
+        except json.JSONDecodeError as e:
+            console_logger.error(f"Error while parsing JSON in '{self.file_path}'")
+            file_logger.error(f"Error while parsing JSON in '{self.file_path}': {e}")
+            return {}
+
+    def __save_parts(self) -> None:
+        try:
+            with open(self.file_path, "w") as file:
+                json.dump(self.parts_base, file)
+        except Exception as e:
+            console_logger.error(f"Error while saving parts base to '{self.file_path}'")
+            file_logger.error(
+                f"Error while saving parts base to '{self.file_path}': {e}"
+            )
+
+    def get_all_parts(self) -> Dict[str, Any]:
+        return self.parts_base
+
+    def get_parts_by_brand(self, brand: str) -> Optional[List[Dict[str, Any]]]:
+        filtered_parts = [part for part in self.parts_base if part["brand"] == brand]
+        if filtered_parts != []:
+            return filtered_parts
+        else:
+            console_logger.info(
+                f"There are no brand, named '{brand}' in the parts base."
+            )
+            return None
+
+    def get_part_by_name(self, part_name: str) -> Optional[Dict[str, Any]]:
+        part = [part for part in self.parts_base if part["name"] == part_name]
+        if part:
+            return part
+        else:
+            console_logger.info(
+                f"There are no part, named '{part_name}' in the parts base."
+            )
+            return None
+
+    def get_part_price(self, part_name: str) -> Optional[float]:
+        part = [part for part in self.parts_base if part["name"] == part_name]
+        if part:
+            return part["price"]
+        else:
+            console_logger.info(
+                f"There are no part, named '{part_name}' in the parts base."
+            )
+            return None
+
+    def change_part_price(self, part_name: str, new_price: float) -> Optional[float]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            file_logger.info(
+                f"Changing part's {part_name} price from ${part['price']} to ${new_price}"
+            )
+            part["price"] = new_price
+            self.__save_parts()
+            console_logger.info(
+                f"Part's {part_name} price have been changed to ${new_price}"
+            )
+            file_logger.info(
+                f"Part's {part_name} price have been changed to ${new_price}"
+            )
+            return part
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def delete_part(self, part_name: str) -> Optional[Dict[str, Any]]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            self.parts_base.remove(part)
+            self.__save_parts()
+            console_logger.info(
+                f"Part {part_name} have been deleted from parts database"
+            )
+            file_logger.info(f"Part {part_name} have been deleted from parts database")
+            return part
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def add_part(self, new_part: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+        new_name = new_part["name"]
+        for part in self.parts_base:
+            if part["name"] == new_name:
+                console_logger.info(
+                    f"Part with name '{new_name}' already exist in the parts base."
+                )
+                return None
+        self.parts_base.append(new_part)
+        self.__save_parts()
+        console_logger.info(f"Part {new_name} have been added to parts database")
+        file_logger.info(f"Part {new_name} have been added to parts database")
+        return new_part
+
+
+class Cpus(PCPartsBase):
+    def __init__(self, file_path: str = "parts_db\cpus.json") -> None:
+        super().__init__(file_path=file_path)
+
+    def get_core_count(self, part_name: str) -> Optional[int]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["core_count"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_performance_core_clock(self, part_name: str) -> Optional[float]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["performance_core_clock"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_performance_boost_clock(self, part_name: str) -> Optional[float]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["performance_boost_clock"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_integrated_graphics(self, part_name: str) -> Optional[str]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["integrated_graphics"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+
+class CpuCoolers(PCPartsBase):
+    def __init__(self, file_path: str = "parts_db\cpu_coolers.json") -> None:
+        super().__init__(file_path=file_path)
+
+    def get_fan_rpm(self, part_name: str) -> Optional[str]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["fan_rpm"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_noise_level(self, part_name: str) -> Optional[str]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["noise_level"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+
+class Motherboards(PCPartsBase):
+    def __init__(self, file_path: str = "parts_db\motherboards.json") -> None:
+        super().__init__(file_path=file_path)
+
+    def get_socket(self, part_name: str) -> Optional[str]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["socket"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_form_factor(self, part_name: str) -> Optional[str]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["form_factor"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_ram_slots(self, part_name: str) -> Optional[int]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["ram_slots"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_max_ram(self, part_name: str) -> Optional[int]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["max_ram"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+
+class MemoryRAM(PCPartsBase):
+    def __init__(self, file_path: str = "parts_db\memory_ram.json") -> None:
+        super().__init__(file_path=file_path)
+
+    def get_ram_type(self, part_name: str) -> Optional[str]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["ram_type"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_ram_speed(self, part_name: str) -> Optional[int]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["ram_speed"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_ram_modules(self, part_name: str) -> Optional[str]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["ram_modules"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+
+class Storages(PCPartsBase):
+    def __init__(self, file_path: str = "parts_db\storages.json") -> None:
+        super().__init__(file_path=file_path)
+
+    def get_storage_type(self, part_name: str) -> Optional[str]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["storage_type"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_storage_capacity(self, part_name: str) -> Optional[int]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["storage_capacity"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_storage_cache(self, part_name: str) -> Optional[int]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["storage_cache"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_storage_form_factor(self, part_name: str) -> Optional[str]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["storage_form_factor"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_storage_interface(self, part_name: str) -> Optional[str]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["storage_interface"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+
+class VideoCards(PCPartsBase):
+    def __init__(self, file_path: str = "parts_db\video_cards.json") -> None:
+        super().__init__(file_path=file_path)
+
+    def get_video_chipset(self, part_name: str) -> Optional[str]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["video_chipset"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_video_memory(self, part_name: str) -> Optional[int]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["video_memory"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_video_core_clock(self, part_name: str) -> Optional[int]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["video_core_clock"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_video_boost_clock(self, part_name: str) -> Optional[int]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["video_boost_clock"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+
+class Cases(PCPartsBase):
+    def __init__(self, file_path: str = "parts_db\cases.json") -> None:
+        super().__init__(file_path=file_path)
+
+    def get_case_type(self, part_name: str) -> Optional[str]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["case_type"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_case_color(self, part_name: str) -> Optional[str]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["case_color"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+
+class PowerSuplyes(PCPartsBase):
+    def __init__(self, file_path: str = "parts_db\power_suplyes.json") -> None:
+        super().__init__(file_path=file_path)
+
+    def get_power_suply_type(self, part_name: str) -> Optional[str]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["power_suply_type"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_wattage(self, part_name: str) -> Optional[int]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["wattage"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_modular(self, part_name: str) -> Optional[str]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["modular"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+
+class OperatingSystems(PCPartsBase):
+    def __init__(self, file_path: str = "parts_db\operating_systems.json") -> None:
+        super().__init__(file_path=file_path)
+
+    def get_mode(self, part_name: str) -> Optional[str]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["mode"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_max_supported_memory(self, part_name: str) -> Optional[int]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["max_supported_memory"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+
+class Monitors(PCPartsBase):
+    def __init__(self, file_path: str = "parts_db\monitors.json") -> None:
+        super().__init__(file_path=file_path)
+
+    def get_screen_size(self, part_name: str) -> Optional[float]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["screen_size"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_resolution(self, part_name: str) -> Optional[str]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["resolution"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_refresh_rate(self, part_name: str) -> Optional[int]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["refresh_rate"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_response_time(self, part_name: str) -> Optional[float]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["response_time"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_panel_type(self, part_name: str) -> Optional[str]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["panel_type"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None
+
+    def get_aspect_ratio(self, part_name: str) -> Optional[str]:
+        part = self.get_part_by_name(part_name)
+        if part:
+            return part["aspect_ratio"]
+        else:
+            console_logger.info(
+                f"Part with name '{part_name}' not found in the parts base."
+            )
+            return None

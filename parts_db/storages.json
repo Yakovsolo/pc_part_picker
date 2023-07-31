@@ -1,0 +1,52 @@
+[
+  {
+    "brand": "Samsung",
+    "name": "980 Pro",
+    "price": 119.99,
+    "storage_type": "SSD",
+    "storage_capacity": 2048,
+    "storage_cache": 2048,
+    "storage_form_factor": "M.2-2280",
+    "storage_interface": "M.2 PCIe 4.0 X4"
+  },
+  {
+    "brand": "Samsung",
+    "name": "970 Evo Plus",
+    "price": 49.99,
+    "storage_type": "SSD",
+    "storage_capacity": 1024,
+    "storage_cache": 1024,
+    "storage_form_factor": "M.2-2280",
+    "storage_interface": "M.2 PCIe 3.0 X4"
+  },
+  {
+    "brand": "Samsung",
+    "name": "980 Pro",
+    "price": 69.99,
+    "storage_type": "SSD",
+    "storage_capacity": 1024,
+    "storage_cache": 1024,
+    "storage_form_factor": "M.2-2280",
+    "storage_interface": "M.2 PCIe 4.0 X4"
+  },
+  {
+    "brand": "Seagate",
+    "name": "Barracuda Compute",
+    "price": 55,
+    "storage_type": "HDD 7200 RPM",
+    "storage_capacity": 2048,
+    "storage_cache": 256,
+    "storage_form_factor": "3.5\"",
+    "storage_interface": "SATA 6.0 Gb/s"
+  },
+  {
+    "brand": "Western Digital",
+    "name": "Caviar Blue",
+    "price": 39.45,
+    "storage_type": "HDD 7200 RPM",
+    "storage_capacity": 1024,
+    "storage_cache": 64,
+    "storage_form_factor": "3.5\"",
+    "storage_interface": "SATA 6.0 Gb/s"
+  }
+]

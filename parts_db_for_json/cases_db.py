@@ -1,0 +1,45 @@
+import json
+
+cases = [
+    {
+        "brand": "Corsair",
+        "name": "4000D Airflow",
+        "price": 89.99,
+        "case_type": "ATX Mid Tower",
+        "Case_color": "Black",
+    },
+    {
+        "brand": "NZXT",
+        "name": "H5 Flow",
+        "price": 94.99,
+        "case_type": "ATX Mid Tower",
+        "Case_color": "Black",
+    },
+    {
+        "brand": "Deepcool",
+        "name": "CC560",
+        "price": 67.98,
+        "case_type": "ATX Mid Tower",
+        "Case_color": "Black",
+    },
+    {
+        "brand": "Lian Li",
+        "name": "O11 Dynamic EVO",
+        "price": 152.99,
+        "case_type": "ATX Mid Tower",
+        "Case_color": "White",
+    },
+    {
+        "brand": "Thermaltake",
+        "name": "Versa H18",
+        "price": 49.99,
+        "case_type": "MicroATX Mini Tower",
+        "Case_color": "Black",
+    },
+]
+
+
+file_path = "cases.json"
+
+with open(file_path, "w") as file:
+    json.dump(cases, file, indent=2)
